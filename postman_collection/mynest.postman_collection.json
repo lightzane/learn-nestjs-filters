@@ -1,0 +1,148 @@
+{
+	"info": {
+		"_postman_id": "ca526cb5-319d-42dd-ad9e-0ad79e5e59d6",
+		"name": "mynest",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "create",
+					"item": [
+						{
+							"name": "SUCCESS",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const responseJson = pm.response.json()\r",
+											"pm.environment.set('userId', responseJson._id)\r",
+											"\r",
+											"pm.test('Status is 201 Created', () => {\r",
+											"    pm.response.to.have.status(201)\r",
+											"    pm.response.to.have.status('Created')\r",
+											"})\r",
+											"\r",
+											"pm.test('Response have _id property', () => {\r",
+											"    pm.expect(responseJson).to.haveOwnProperty('_id')\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Jane\",\r\n    \"email\": \"jane@email.com\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/user/create",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										"create"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "BAD REQUEST",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const responseJson = pm.response.json()\r",
+											"\r",
+											"pm.test('Status is 400 Bad Request', () => {\r",
+											"    pm.response.to.have.status(400)\r",
+											"    pm.response.to.have.status('Bad Request')\r",
+											"})\r",
+											"\r",
+											"pm.test('Response have \"message\" property', () => {\r",
+											"    pm.expect(responseJson).to.haveOwnProperty('message')\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Jane\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/user/create",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										"create"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "update",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Natasha\",\r\n    \"email\": \"nat@email.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/user/update/:userId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"user",
+								"update",
+								":userId"
+							],
+							"variable": [
+								{
+									"key": "userId",
+									"value": "{{userId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
